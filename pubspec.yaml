@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^9.0.0
   flutter_map: 
   latlong2:
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
