@@ -39,6 +39,8 @@ dependencies:
   flutter_screenutil: ^5.7.0
   another_flushbar: ^1.10.24
   flutter_bloc: ^9.0.0
+  flutter_map: 
+  latlong2:
 
 dev_dependencies:
   flutter_test:
