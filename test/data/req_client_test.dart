@@ -93,14 +93,14 @@ void main() {
       );
 
       when(
-        mockDio.get(url, options: anyNamed('options')),
+        mockDio.get(ipUrl, options: anyNamed('options')),
       ).thenAnswer((_) async => mockResponse);
 
       final response = await reqClient.getWithoutHeaderClientPlain(ipUrl);
 
       expect(response.statusCode, 200);
       expect(response.data, ip);
-      verify(mockDio.get(url, options: anyNamed('options'))).called(1);
+      verify(mockDio.get(ipUrl, options: anyNamed('options'))).called(1);
     });
 
     test('isValidResponse returns true for valid status codes', () {
