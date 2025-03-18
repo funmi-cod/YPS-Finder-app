@@ -1,6 +1,10 @@
 import 'package:finder_app/src/core/common/components/app_button.dart';
+import 'package:finder_app/src/core/utils/constant/route_constant.dart';
 import 'package:finder_app/src/core/utils/constant/util.dart';
+import 'package:finder_app/src/core/utils/helpers/alert.dart';
+import 'package:finder_app/src/features/intro/bloc/intro_bloc/intro_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -11,6 +15,14 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  late IntroCubit _cubit;
+
+  @override
+  void initState() {
+    _cubit = BlocProvider.of<IntroCubit>(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,17 +61,41 @@ class _IntroScreenState extends State<IntroScreen> {
                   ),
                 ),
                 SizedBox(height: 50.h),
-                Center(
-                  child: AppButton(
-                    width: 250.w,
-                    text: "Locate me",
+                BlocConsumer<IntroCubit, IntroState>(
+                  listener: (context, state) {
+                    if (state is IntroError) {
+                      showAlertMessage(
+                        context,
+                        message: state.error ?? "",
+                        backgroundColor: Colors.red,
+                      );
+                    }
 
-                    enabled: true,
-                    backgroundColor: Color(0xFFFFBF00),
-                    height: 58.h,
-                    fontSize: 16.sp,
-                    onPressed: () {},
-                  ),
+                    if (state is IntroSuccess) {
+                      showAlertMessage(
+                        context,
+                        message: state.message ?? "",
+                        backgroundColor: Colors.green,
+                      );
+                      Navigator.pushNamed(context, RouteLiterals.homeScreen);
+                    }
+                  },
+                  builder: (context, state) {
+                    return Center(
+                      child: AppButton(
+                        width: 250.w,
+                        text: "Locate me",
+                        isLoading: state is IntroLoading,
+                        enabled: state is! IntroLoading,
+                        backgroundColor: Color(0xFFFFBF00),
+                        height: 58.h,
+                        fontSize: 16.sp,
+                        onPressed: () {
+                          _cubit.fetchUserIp();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
