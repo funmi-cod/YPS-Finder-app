@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               tileDisplay: TileDisplay.instantaneous(),
               urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 
-              userAgentPackageName: 'com.example.mappy',
+              userAgentPackageName: 'com.example.finder_app',
             ),
             MarkerLayer(
               markers: [
